@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  web:
+    image: node:16
+    container_name: nestjs_tutotial_web
+    tty: true #これないと起動後すぐ落ちる
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./app:/app
+    depends_on:
+      - mysql
+    command: >
+      sh -c "cd app && 
+              yarn install && 
+              yarn start:dev
+              "
+  mysql:
+    image: mysql:8.0.27
+    cap_add:
+      - SYS_NICE  # CAP_SYS_NICE
+    container_name: nestjs_tutorial_mysql
+    ports:
+      - "3306:3306" #3306にしないとtcpエラー出た
+    environment:
+      MYSQL_ROOT_PASSWORD: mynpmsql
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      TZ: Asia/Tokyo
+
+networks:
+  default:
+    name: nestjs-blog-network
+    external: true
