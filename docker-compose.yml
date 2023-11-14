@@ -29,8 +29,3 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
       TZ: Asia/Tokyo
-
-networks:
-  default:
-    name: nestjs-blog-network
-    external: true
